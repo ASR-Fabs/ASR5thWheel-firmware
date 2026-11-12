@@ -64,3 +64,6 @@ A new ESP32 is flashed once over USB (Arduino IDE, the board setting above). Aft
 
 Document history: 1.0 (2026-11-12), written with ASR 5th Wheel 7.7.5 (the signed update channel).
 
+7.7.3 Firmware - Bug fix for Retract Safety, Added browser-based settings menu, added Hall Squelch, added Feed Assist.
+
+7.7.4 Firmware - Made the Squelch not active while state is Engaged to prevent print artifacts from pulsing.
