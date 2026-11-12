@@ -8,7 +8,7 @@ Copyright (c) 2026 ASR-LLC. All rights reserved.
 
 |File|What it is|Read by|
 |-|-|-|
-|`signed\_version.txt`|The current release, one line, for example `7.7.6`.|7.7.5 and later|
+|`signed\_version.txt`|The current release, one line, for example `7.8.0`.|7.7.5 and later|
 |`signed\_latest.bin`|That release, signed with the ASR signing key (target **ASR 5th Wheel**).|7.7.5 and later|
 |`version.txt`|`7.7.5`. **Frozen: never change it.**|7.7.4 only|
 |`latest.bin`|The plain (unsigned) 7.7.5. **Frozen: never change it.**|7.7.4 only|
@@ -24,7 +24,7 @@ The old pair stays on 7.7.5 for good. That way a unit still on 7.7.4 always upda
 1. 7.7.4 reads `version.txt` (7.7.5), installs the plain `latest.bin` and restarts.
 2. 7.7.5 reads `signed\_version.txt`, installs the newest signed release and restarts.
 
-Once 7.7.6 or later is out, a 7.7.4 unit does both hops back to back. If the old pair ever pointed at a signed file or a newer version, 7.7.4 units would fail or install something they can't check, so leave it alone.
+Once 7.8.0 or later is out, a 7.7.4 unit does both hops back to back. If the old pair ever pointed at a signed file or a newer version, 7.7.4 units would fail or install something they can't check, so leave it alone.
 
 ## How a 5th Wheel updates (7.7.5 and later)
 
@@ -37,7 +37,7 @@ Any signed 5th Wheel `.bin` can also be installed by hand on the unit's **/updat
 
 ## The 7.7.5 changeover (once)
 
-7.7.5 is built once, and that one export is published twice.
+7.7.5 is built once, and that one export is published twice. The old pair always holds this plain 7.7.5, even when the signed pair starts at a later release (for example 7.8.0): a 7.7.4 unit takes the plain 7.7.5 first, then the newest signed release.
 
 1. Export `filament\_handler\_v7\_7\_5.ino.bin` as in step 2 above.
 2. **Signed pair:**
@@ -49,6 +49,16 @@ Any signed 5th Wheel `.bin` can also be installed by hand on the unit's **/updat
    1. Upload the same, unsigned export as `latest.bin`, replacing 7.7.4.
    2. Upload `version.txt` containing `7.7.5`, last.
 4. From then on, never change `version.txt` or `latest.bin` again.
+
+If the signed pair starts at 7.8.0 instead, do step 3 with the 7.7.5 build (the sketch tagged `v7.7.5`) and publish 7.8.0 in the signed pair as in "Publishing a release".
+
+## Releases
+
+|Version|What changed|
+|-|-|
+|7.8.0|Aligned with the ASR BMCU Helper. **Feed mode** Standard or TPU (App and Settings page): Standard is the 5th Wheel's proven feed, unchanged; TPU runs the Helper's TPU load, timed (contact, 2nd push wait, 2nd push, Engage Delay, relief, tug, Engaged), with its own values. **Autoload** counts its distance from the exit switch, and the exit switch must be reached within a time window (5 s). **App**: 60-second tension graph with the motor strip and the current feed step.|
+|7.7.5|Signed updates: `signed\_version.txt` and `signed\_latest.bin`, newer versions only; `/update` accepts only signed 5th Wheel files; ArduinoOTA removed; the Wi-Fi setup page shows only Configure WiFi and takes no firmware. No change to filament handling.|
+|7.7.4|The last unsigned release (reads `version.txt` and `latest.bin`).|
 
 ## First install
 
@@ -62,8 +72,5 @@ A new ESP32 is flashed once over USB (Arduino IDE, the board setting above). Aft
 
 \---
 
-Document history: 1.0 (2026-11-12), written with ASR 5th Wheel 7.7.5 (the signed update channel).
+Document history: 1.0 (2026-11-12), written with ASR 5th Wheel 7.7.5 (the signed update channel). 1.1 (2026-11-12): ASR 5th Wheel 7.8.0; the Releases table; the old pair stays on the plain 7.7.5 when the signed pair starts at a later release.
 
-7.7.3 Firmware - Bug fix for Retract Safety, Added browser-based settings menu, added Hall Squelch, added Feed Assist.
-
-7.7.4 Firmware - Made the Squelch not active while state is Engaged to prevent print artifacts from pulsing.
